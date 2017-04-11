@@ -1,7 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, trigger, state, style, animate, transition, keyframes } from '@angular/core';
 
 @Component({
   selector: 'my-app',
-  template: `<h1>Hello {{name}}</h1>`,
+  template: `<button [@myTrigger]='state'>My Button</button>`,
+  styles: [],
+  animations: [
+    trigger('myTrigger', [
+
+    ])
+
+  ]
 })
-export class AppComponent  { name = 'Angular'; }
+export class AppComponent  {
+  state: string = 'small';
+}

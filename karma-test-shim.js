@@ -1,3 +1,4 @@
+// #docregion
 // /*global jasmine, __karma__, window*/
 Error.stackTraceLimit = 0; // "No stacktrace"" is usually best for app testing.
 
@@ -6,10 +7,7 @@ Error.stackTraceLimit = 0; // "No stacktrace"" is usually best for app testing.
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
 
-// builtPaths: root paths for output ("built") files
-// get from karma.config.js, then prefix with '/base/' (default is 'src/')
-var builtPaths = (__karma__.config.builtPaths || ['src/'])
-                 .map(function(p) { return '/base/'+p;});
+var builtPath = '/base/app/';
 
 __karma__.loaded = function () { };
 
@@ -21,12 +19,8 @@ function isSpecFile(path) {
   return /\.spec\.(.*\.)?js$/.test(path);
 }
 
-// Is a "built" file if is JavaScript file in one of the "built" folders
 function isBuiltFile(path) {
-  return isJsFile(path) &&
-         builtPaths.reduce(function(keep, bp) {
-           return keep || (path.substr(0, bp.length) === bp);
-         }, false);
+  return isJsFile(path) && (path.substr(0, builtPath.length) == builtPath);
 }
 
 var allSpecFiles = Object.keys(window.__karma__.files)
@@ -34,8 +28,7 @@ var allSpecFiles = Object.keys(window.__karma__.files)
   .filter(isBuiltFile);
 
 System.config({
-  // Base URL for System.js calls. 'base/' is where Karma serves files from.
-  baseURL: 'base/src',
+  baseURL: 'base',
   // Extend usual application package list with test folder
   packages: { 'testing': { main: 'index.js', defaultExtension: 'js' } },
 
